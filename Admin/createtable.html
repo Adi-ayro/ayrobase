@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create SQLite Table</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .form-container {
+            max-width: 600px;
+            margin: auto;
+        }
+        .column-field {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .column-field input, .column-field select {
+            flex: 1;
+        }
+        .column-field button {
+            padding: 5px 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>Create SQLite Table</h2>
+        <form id="tableForm" action="http://localhost:3000/forms/create" method="POST">
+            <label for="tablename">Table Name:</label>
+            <input type="text" id="tablename" name="tablename" required><br><br>
+
+            <div id="columnsContainer">
+                <h3>Columns:</h3>
+                <!-- Dynamic column fields will be added here -->
+            </div>
+
+            <button type="button" onclick="addColumnField()">Add Column</button>
+            <button type="submit">Create Table</button>
+        </form>
+    </div>
+
+    <script>
+        // Array of valid SQLite data types
+        const sqliteDataTypes = ["INTEGER", "TEXT", "REAL", "BLOB", "NUMERIC"];
+
+        // Function to add a new column field
+        function addColumnField() {
+            const container = document.getElementById('columnsContainer');
+            const div = document.createElement('div');
+            div.className = 'column-field';
+
+            // Create column name input
+            const columnName = document.createElement('input');
+            columnName.type = 'text';
+            columnName.name = 'column_names[]';
+            columnName.placeholder = 'Column Name';
+            columnName.required = true;
+
+            // Create datatype selector
+            const dataType = document.createElement('select');
+            dataType.name = 'column_types[]';
+            sqliteDataTypes.forEach(type => {
+                const option = document.createElement('option');
+                option.value = type;
+                option.textContent = type;
+                dataType.appendChild(option);
+            });
+
+            // Create remove button
+            const removeButton = document.createElement('button');
+            removeButton.type = 'button';
+            removeButton.textContent = 'Remove';
+            removeButton.onclick = () => container.removeChild(div);
+
+            // Append inputs to div
+            div.appendChild(columnName);
+            div.appendChild(dataType);
+            div.appendChild(removeButton);
+
+            // Append div to container
+            container.appendChild(div);
+        }
+
+        // Add initial column field on page load
+        window.onload = addColumnField;
+    </script>
+</body>
+</html>
