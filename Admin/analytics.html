@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Statistics</title>
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment@1.0.0"></script>
+</head>
+<body>
+    <h1>Daily Unique Visitors</h1>
+    <div style="width: 600px; height: 400px;">
+        <canvas id="lineChart"></canvas>
+    </div>
+    <script>
+        const labels = {{ .Dates }};
+        const data = {{ .Counts }};
+    
+        const ctx = document.getElementById('lineChart').getContext('2d');
+        const lineChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Unique Visitors per Day',
+                data: data,
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 2,
+                fill: false,
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                x: {
+                    type: 'time',
+                    time: {
+                        unit: 'day'
+                    }
+                },
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+    </script>
+    
+    <h1>Page Statistics</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Page</th>
+                <th>Count</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{range .pages}}
+            <tr>
+                <td>{{ .Path}}</td>
+                <td>{{ .Count}}</td>
+            </tr>
+            {{end}}
+        </tbody>
+    </table>
+
+    <h2>Referer Statistics</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Referer</th>
+                <th>Count</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{range .referers}}
+            <tr>
+                <td>{{.Referer}}</td>
+                <td>{{.Count}}</td>
+            </tr>
+            {{end}}
+        </tbody>
+    </table>
+</body>
+</html>
