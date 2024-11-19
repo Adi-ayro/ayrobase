@@ -1,0 +1,65 @@
+.menu{
+    height: 100vh;
+    width: 3.4vw;
+    position: fixed;
+    top:0;
+    left:0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-right: 2px solid black;
+    background-color: white;
+    z-index: 1;
+}
+
+.menu a{
+    padding: 11px;
+    text-decoration: none;
+    color: black;
+}
+
+.title{
+    position: relative;
+    top: 0;
+    right: 0;
+    display: block;
+    border-bottom: 2px solid black;
+    width: 96.4vw;
+    height: 6vh;
+}
+
+.title h2{
+    font-weight: 500;
+    margin-left: 10px;
+}
+
+body{
+    margin-left: 3.5vw;
+    font-family: "Poppins", sans-serif;
+    overflow-x: hidden;
+}
+
+.btn{
+    padding: 10px 20px;
+    text-transform: uppercase;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 500;
+    color: #000000;
+    text-shadow: none;
+    background: transparent;
+    cursor: pointer;
+    box-shadow: transparent;
+    border: 1px solid #000000;
+    transition: 0.5s ease;
+    user-select: none;
+  }
+  
+.btn:hover,
+  :focus {
+    color: #ffffff;
+    background: #008cff;
+    border: 1px solid #008cff;
+    text-shadow: 0 0 5px #ffffff, 0 0 10px #ffffff, 0 0 20px #ffffff;
+  }
+  

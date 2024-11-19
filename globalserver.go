@@ -34,7 +34,6 @@ func startGlobalServer() {
 		}
 
 		insertAnalytics(db, c.IP(), time.Now(), c.Get("Referer", "unknown"), c.Path())
-		outputAllAnalytics(db)
 		return c.Next()
 	})
 

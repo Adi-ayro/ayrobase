@@ -1,0 +1,81 @@
+form{
+    padding-left: 2.5vw;
+}
+
+label{
+    font-size: 15px;
+    margin-bottom: 5px;
+}
+
+input::file-selector-button{
+    font-size: 15px;
+    font-weight: 500;
+    padding: 10px 20px;
+    text-transform: uppercase;
+    border-radius: 8px;
+    color: black;
+    border: 1px solid black;
+    background-color: white;
+    margin-bottom: 35px;
+}
+
+.upload{
+    border-bottom: 2px solid black;
+    padding-bottom: 2vh;
+    width: 96.6vw;
+}
+
+.upload h3{
+    margin-left: 2.5vw;
+}
+
+h3{
+    font-size: 4vh;
+    font-weight: 400;    
+}
+
+.files{
+    margin-left: 2.5vw;
+}
+
+.fileelem{
+    margin-top: 2vh;
+    height: 10vh;
+    width: 70vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    border: 2px solid black;
+    border-radius: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.fileelem a{
+    width: 10vw;
+}
+
+.warn{
+    padding: 8px 15px;
+    text-transform: uppercase;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 500;
+    color: #000000;
+    text-shadow: none;
+    background: transparent;
+    cursor: pointer;
+    box-shadow: transparent;
+    border: 1px solid #000000;
+    transition: 0.5s ease;
+    user-select: none;
+}
+
+.warn:hover,
+  :focus {
+    color: #ffffff;
+    background: #ef4444;
+    border: 1px solid #ef4444;
+    text-shadow: 0 0 5px #ffffff, 0 0 10px #ffffff, 0 0 20px #ffffff;
+  }

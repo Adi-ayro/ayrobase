@@ -4,24 +4,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src="https://kit.fontawesome.com/4db2b05c4a.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/menu.css">
+    <link rel="stylesheet" href="/css/content.css">
 </head>
 <body>
-    <h2>Upload File</h2>
-    <form action="/content/upload/" method="POST" enctype="multipart/form-data" target="_self">
-        <label for="filename">Filename:</label>
-        <input type="text" id="filename" name="filename" required>
-        <br><br>
-        
-        <label for="file">Choose file:</label>
-        <input type="file" id="file" name="file" required>
-        <br><br>
-        
-        <button type="submit">Upload</button>
-    </form>
-    <h2>Files</h2>
-    {{ range .files }}
-    <h3>{{ . }}</h3> <button onclick="deleteFile('{{ . }}')">Delete</button>
-    {{ end }}
+    <div class="menu">
+        <i class="fa-solid fa-fire fa-3x" style="padding: 6px 0;"></i>
+        <a href="/admin/hosting"><i class="fa-solid fa-arrow-up-from-bracket fa-2x"></i></a>
+        <a href="/admin/forms"><i class="fa-regular fa-pen-to-square fa-2x"></i></a>
+        <a href="/admin/form/"><i class="fa-solid fa-table fa-2x"></i></a>
+        <a href="/admin/content"><i class="fa-regular fa-folder-open fa-2x"></i></a>
+        <a href="/admin/analytics"><i class="fa-solid fa-chart-line fa-2x"></i></a>
+    </div>
+    <div class="title"><h2>Manage Object Storage</h2></div>
+    <div class="upload">
+        <h3>Upload File</h3>
+        <form action="/content/upload/" method="POST" enctype="multipart/form-data" target="_self">
+            <label for="filename">Filename:</label>
+            <input type="text" id="filename" name="filename" required>
+            <br><br>
+
+            <label for="file">Choose file:</label>
+            <input type="file" id="file" name="file" required>
+            <br><br>
+
+            <button class="btn" type="submit">Upload</button>
+        </form>
+    </div>
+    <div class="files">
+        <h3>Files</h3>
+        {{ range .files }}
+        <div class="fileelem">
+            <p style="flex-grow: 6">{{ . }}</p> <a href="localhost:4000/images/{{ . }}" target="_blank">Visit</a> <button class="warn" onclick="deleteFile('{{ . }}')">Delete</button>
+        </div>
+        {{ end }}
+    </div>
     <script>
         function deleteFile(filename) {
             fetch(`/content/delete/${filename}`, {

@@ -1,0 +1,60 @@
+.form-container{
+    margin-left: 2.5vw;
+    margin-top: 4vh;
+}
+
+form {
+    padding: 16px;
+    width: 50vw;
+    margin: 20px auto;
+    font-family: Arial, sans-serif;
+}
+  
+label, p {
+  color: black;
+  margin-bottom: 8px;
+  display: block;
+}
+  
+input {
+  border: 1px solid black;
+  padding: 8px;
+  width: 20vw;
+  margin-bottom: 16px;
+  margin-right: 2vw;
+}
+  
+button {
+  border: 1px solid black;
+  background: none;
+  padding: 8px 12px;
+  cursor: pointer;
+  margin-right: 8px;
+}
+  
+button:hover {
+  background: black;
+  color: white;
+}
+
+#columnsContainer {
+  margin-bottom: 16px;
+}
+
+select {
+    width: 10vw;
+    padding: 8px;
+    margin-right: 2vw;
+}
+
+select:focus,:hover{
+    background-color: white;
+    border-color: black;
+    color: black;
+}
+
+button:focus,:hover{
+    background-color: white;
+    border-color: black;
+    color: black;
+}

@@ -21,6 +21,8 @@ func startLocalServer() {
 		Views: engine,
 	})
 
+	app.Static("/css/", "./Admin/css")
+
 	app.Post("/host", Host)
 	app.Post("/newhost", ChangeHost)
 	app.Post("/content/upload/", ImgUpload)
@@ -32,6 +34,7 @@ func startLocalServer() {
 	app.Get("/admin/content", AdminContent)
 	app.Get("/admin/hosting", AdminHosting)
 	app.Get("/admin/analytics", AdminAnalytics)
+	app.Get("/admin/form/:tablename?", AdminForms)
 	app.Static("/admin/forms", "./Admin/forms.html")
 
 	// Listen on localhost only
@@ -435,4 +438,88 @@ func AdminAnalytics(c *fiber.Ctx) error {
 		"Dates":    dates,
 		"Counts":   counts,
 	})
+}
+
+func AdminForms(c *fiber.Ctx) error {
+	tablename := c.Params("tablename")
+
+	db, err := sql.Open("sqlite3", "./database.db")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer db.Close()
+
+	rows, err := db.Query("SELECT name FROM sqlite_master WHERE type='table'")
+	if err != nil {
+		return c.Status(500).SendString("Database error")
+	}
+	defer rows.Close()
+
+	var tables []string
+	for rows.Next() {
+		var tableName string
+		if err := rows.Scan(&tableName); err != nil {
+			return c.Status(500).SendString("Database error")
+		}
+		tables = append(tables, tableName)
+	}
+
+	if tablename == "" {
+		return c.Render("table", tables)
+	} else {
+		schemaQuery := `PRAGMA table_info(` + tablename + `);`
+		schemaRows, err := db.Query(schemaQuery)
+		if err != nil {
+			return c.Status(500).SendString("Error retrieving schema")
+		}
+		defer schemaRows.Close()
+
+		// Store schema information
+		type Column struct {
+			Name string
+			Type string
+		}
+		var columns []Column
+		for schemaRows.Next() {
+			var cid int
+			var name, ctype string
+			var notnull, dflt_value, pk sql.NullString
+
+			// Scan each row in the correct order
+			if err := schemaRows.Scan(&cid, &name, &ctype, &notnull, &dflt_value, &pk); err != nil {
+				return c.Status(500).SendString("Error scanning schema: " + err.Error())
+			}
+			columns = append(columns, Column{Name: name, Type: ctype})
+		}
+
+		// Query to get all data from the specified table
+		dataQuery := `SELECT * FROM ` + tablename
+		dataRows, err := db.Query(dataQuery)
+		if err != nil {
+			return c.Status(500).SendString("Error retrieving data")
+		}
+		defer dataRows.Close()
+
+		// Retrieve data and organize it by rows and columns
+		var data [][]interface{}
+		for dataRows.Next() {
+			row := make([]interface{}, len(columns))
+			rowPtrs := make([]interface{}, len(columns))
+			for i := range row {
+				rowPtrs[i] = &row[i]
+			}
+			if err := dataRows.Scan(rowPtrs...); err != nil {
+				return c.Status(500).SendString("Error scanning row data")
+			}
+			data = append(data, row)
+		}
+
+		// Render template with schema and data
+		return c.Render("tableview", fiber.Map{
+			"Table":     tables,
+			"TableName": tablename,
+			"Columns":   columns,
+			"Data":      data,
+		})
+	}
 }
